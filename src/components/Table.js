@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import mockDataLabel from "../func/mockDataLabel";
+
 import {
   Paper,
   Table,
@@ -12,9 +12,7 @@ import {
 import Row from "./Row";
 import ModalDetails from "./ModalDetails";
 import "./tableStyle.css";
-function TableShow() {
-  const tableData = mockDataLabel(12);
-
+function TableShow({ tableData }) {
   const [header, setHeader] = useState([]);
   const [openDetail, setOpenDetail] = useState(false);
   const [dataInfo, setDataInfo] = useState(null);
@@ -35,26 +33,35 @@ function TableShow() {
     <>
       {tableData.length > 0 ? (
         <>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableContainer
+            component={Paper}
+            style={{ marginTop: "20px", marginBottom: "20px" }}
+          >
+            <Table
+              sx={{ minWidth: 650, border: " 2px solid blue" }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
                   {header.length > 0 &&
-                    header.map((el, index) => (
-                      <TableCell align="right" key={`header_is_${index}`}>
-                        {el}
-                      </TableCell>
-                    ))}
-                  <TableCell align="right">Information</TableCell>
+                    header.map(
+                      (el, index) =>
+                        el !== "subRows" && (
+                          <TableCell align="right" key={`header_is_${index}`}>
+                            {el}
+                          </TableCell>
+                        )
+                    )}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {tableData.map((el, index) => (
                   <Row
-                    key={`rows_key_${index}`}
+                    key={`rows_key__${index}`}
                     rowData={el}
                     openDetail={setOpenDetail}
                     setData={setDataInfo}
+                    header={header}
                   />
                 ))}
               </TableBody>
